@@ -1,0 +1,48 @@
+= Antlr's TestRig with ASCII Trees
+
+Antlr's `testRig` spits out `Lisp` trees which are nice, but so are ASCII trees. Here's an example:
+
+== Calculator Grammar
+From the https://github.com/antlr/grammars-v4[examples].
+
+Input
+```
+y=x^1+2
+```
+
+Lisp Tree
+```bash
+(equation (expression (multiplyingExpression (powExpression (atom (variable y))))) (relop =) (expression (multiplyingExpression (powExpression (atom (variable x)) ^ (atom (scientific (number 1))))) + (multiplyingExpression (powExpression (atom (scientific (number 2)))))))
+```
+
+ASCII Tree
+```
+└─equation
+  ├─expression
+  │ └─multiplyingExpression
+  │   └─powExpression
+  │     └─atom
+  │       └─variable
+  │         └─[LETTER] y
+  ├─relop
+  │ └─[EQ] =
+  └─expression
+    ├─multiplyingExpression
+    │ └─powExpression
+    │   ├─atom
+    │   │ └─variable
+    │   │   └─[LETTER] x
+    │   ├─[POW] ^
+    │   └─atom
+    │     └─scientific
+    │       └─number
+    │         └─[DIGIT] 1
+    ├─[PLUS] +
+    └─multiplyingExpression
+      └─powExpression
+        └─atom
+          └─scientific
+            └─number
+              └─[DIGIT] 2
+
+```
