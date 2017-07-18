@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+   compile "org.antlr:antlr4:4.7"
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'org.antlr.v4.gui.TestRig'
+  }
+}
