@@ -2,6 +2,22 @@
 
 Antlr's `testRig` spits out `Lisp` trees which are nice, but so are ASCII trees. Here's an example:
 
+== Usage
+
+Build:
+```bash
+$ clone https://github.com/venkatperi/antlr-testrig
+$ cd antlr-testrig
+$ ./gradlew build   #creates JAR in build/libs
+```
+
+Usage (like `grun`):
+
+```bash
+$ CLASSPATH = :/path/to/above/jar:$CLASSPATH:
+$ java org.antlr.v4.gui2.TestRig2 <grammar> <start rule> -tree input-file(s) 
+```
+
 == Calculator Grammar
 From the https://github.com/antlr/grammars-v4[examples].
 
