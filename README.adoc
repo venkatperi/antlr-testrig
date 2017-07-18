@@ -12,7 +12,10 @@ y=x^1+2
 
 Lisp Tree
 ```bash
-(equation (expression (multiplyingExpression (powExpression (atom (variable y))))) (relop =) (expression (multiplyingExpression (powExpression (atom (variable x)) ^ (atom (scientific (number 1))))) + (multiplyingExpression (powExpression (atom (scientific (number 2)))))))
+(equation (expression (multiplyingExpression (powExpression (atom (variable y))))) 
+(relop =) (expression (multiplyingExpression (powExpression (atom (variable x)) ^ 
+(atom (scientific (number 1))))) + (multiplyingExpression (powExpression (atom 
+(scientific (number 2)))))))
 ```
 
 ASCII Tree
