@@ -78,7 +78,7 @@ public class DefaultTreeTextProvider implements TreeTextProvider {
 				if (symbol != null) {
           String type = parser.getVocabulary().getSymbolicName(symbol.getType());
 					String s = symbol.getText();
-					return "[" + type + "] " + s;
+					return "[" + type  + " " + symbol.getLine() + ":" +symbol.getCharPositionInLine() + "] " + s;
 				}
 			}
 		}

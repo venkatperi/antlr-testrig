@@ -46,6 +46,8 @@ public class TestRig2 {
 	protected String startRuleName;
 	protected final List<String> inputFiles = new ArrayList<String>();
 	protected boolean printTree = false;
+	protected boolean printAsciiTree = false;
+	protected boolean printJSONTree = false;
 	protected boolean gui = false;
 	protected String psFile = null;
 	protected boolean showTokens = false;
@@ -57,7 +59,7 @@ public class TestRig2 {
 	public TestRig2(String[] args) throws Exception {
 		if ( args.length < 2 ) {
 			System.err.println("java org.antlr.v4.gui.TestRig GrammarName startRuleName\n" +
-							   "  [-tokens] [-tree] [-gui] [-ps file.ps] [-encoding encodingname]\n" +
+							   "  [-tokens] [-tree] [-asciitree] [-jsontree] [-gui] [-ps file.ps] [-encoding encodingname]\n" +
 							   "  [-trace] [-diagnostics] [-SLL]\n"+
 							   "  [input-filename(s)]");
 			System.err.println("Use startRuleName='tokens' if GrammarName is a lexer grammar.");
@@ -78,6 +80,12 @@ public class TestRig2 {
 			}
 			if ( arg.equals("-tree") ) {
 				printTree = true;
+			}
+			if ( arg.equals("-asciitree") ) {
+				printAsciiTree = true;
+			}
+			if ( arg.equals("-jsontree") ) {
+				printJSONTree = true;
 			}
 			if ( arg.equals("-gui") ) {
 				gui = true;
@@ -207,8 +215,13 @@ public class TestRig2 {
 				ParserRuleContext tree = (ParserRuleContext)startRule.invoke(parser, (Object[])null);
 
 				if ( printTree ) {
-					//System.out.println(tree.toStringTree(parser));
+					System.out.println(tree.toStringTree(parser));
+				}
+				if ( printAsciiTree ) {
           System.out.println(Trees.textTree(tree, parser));
+				}
+				if ( printJSONTree ) {
+          System.out.println(Trees.JSONTree(tree, parser));
 				}
 				if ( gui ) {
 					Trees.inspect(tree, parser);

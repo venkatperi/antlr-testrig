@@ -124,18 +124,13 @@ public class Trees {
 	public static String textTree(Tree t, Parser parser)
 		throws IOException, PrintException
 	{
-		//List<String> ruleNames = parser != null ? Arrays.asList(parser.getRuleNames()) : null;
     TreeTextProvider prov = new DefaultTreeTextProvider(parser);
-    return toStringTree(t, prov, "", true);
+    return toAsciiTree(t, prov, "", true);
 	}
 
 
-	/** Print out a whole tree in LISP form. Arg nodeTextProvider is used on the
-	 *  node payloads to get the text for the nodes.
-	 *
-	 *  @since 4.5.1
-	 */
-	public static String toStringTree(Tree t, TreeTextProvider nodeTextProvider, String prefix, boolean isTail) {
+	public static String toAsciiTree(Tree t, TreeTextProvider nodeTextProvider, 
+      String prefix, boolean isTail) {
 
 		if ( t==null ) return "null";
 		StringBuilder buf = new StringBuilder();
@@ -143,15 +138,51 @@ public class Trees {
 
 		String name = Utils.escapeWhitespace(nodeTextProvider.getText(t), false);
     buf.append(prefix);
-    buf.append(isTail ? "└─" : "├─");
+    buf.append(isTail ? "└" : "├");
     buf.append(name);
 		buf.append("\n");
 
 		for (int i = 0; i<childCount; i++) {
-      String p = prefix + (isTail ? "  " : "│ ");
-			buf.append(toStringTree(t.getChild(i), nodeTextProvider, p, i < childCount-1 ? false  : true));
-
+      String p = prefix + (isTail ? " " : "│");
+			buf.append(toAsciiTree(t.getChild(i), nodeTextProvider, p, 
+            i < childCount-1 ? false  : true));
 		}
+		return buf.toString();
+	}
+
+	public static String JSONTree(Tree t, Parser parser)
+		throws IOException, PrintException
+	{
+    TreeTextProvider prov = new DefaultTreeTextProvider(parser);
+    return toJSONTree(t, prov, "");
+	}
+
+	public static String toJSONTree(Tree t, TreeTextProvider nodeTextProvider, String prefix) {
+		if ( t==null ) return "{}";
+
+		StringBuilder buf = new StringBuilder();
+    int childCount = t.getChildCount();
+		String name = Utils.escapeWhitespace(nodeTextProvider.getText(t), false);
+    name = name.replace("\"","\\\"");
+
+    buf.append(prefix);
+    buf.append("{\n");
+    buf.append(prefix + "  \"text\": \"");
+    buf.append(name);
+    buf.append("\"");
+
+    if (childCount > 0) {
+      buf.append(",\n");
+      buf.append(prefix + "  \"children\": [\n");
+      for (int i = 0; i<childCount; i++) {
+        buf.append(toJSONTree(t.getChild(i), nodeTextProvider, prefix+ "   "));
+        if (i < childCount-1 )
+          buf.append(",\n");
+      }
+      buf.append(" ]");
+    }
+    buf.append("\n");
+    buf.append(prefix + "}");
 		return buf.toString();
 	}
 
